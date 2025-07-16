@@ -4,14 +4,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-menu a');
     
-    navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
+    // Ensure menu is closed by default
+    navMenu.classList.remove('active');
+    
+    navToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (!navMenu.classList.contains('active')) {
+            navMenu.classList.add('active');
+        }
     });
     
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             navMenu.classList.remove('active');
         });
+    });
+    
+    // Close menu when clicking outside (anywhere except hamburger)
+    document.addEventListener('click', function(e) {
+        if (navMenu.classList.contains('active') && !navToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+        }
     });
     
     // Header scroll effect
